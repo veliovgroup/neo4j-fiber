@@ -18,8 +18,9 @@ module.exports = class Neo4jEndpoint
       data = @_db.__batch
         method: method
         to: @endpoint
-        body: options.body
-      data = data.get() if _.isFunction data.get
+        body: if options?.body then options.body else null
+      data = data.get() if data?.get and _.isFunction data.get
+      return data
 
   __getAndProceed: (funcName) ->
     @_db[funcName] @_db.__batch

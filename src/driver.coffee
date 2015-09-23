@@ -123,15 +123,13 @@ module.exports = class Neo4jDB
     unless callback
       return __wait (fut) =>
         @once task.id, (error, response) =>
-          bound => 
-            if error
-              fut.throw error
-            else
-              fut.return if noTransform then response else @__transformData _.clone(response), reactive
+          if error
+            fut.throw error
+          else
+            fut.return if noTransform then response else @__transformData _.clone(response), reactive
     else
       @once task.id, (error, response) =>
-        bound => 
-          callback error, if noTransform then response else @__transformData _.clone(response), reactive
+        callback error, if noTransform then response else @__transformData _.clone(response), reactive
 
   __connect: -> 
     response = @__call @root

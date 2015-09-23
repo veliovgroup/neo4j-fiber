@@ -36,7 +36,7 @@ module.exports = class Neo4jData
       else
         v2 = value
 
-      unless v2 and (JSON.stringify(v1) isnt JSON.stringify v2)
+      if v2 and (JSON.stringify(v1) isnt JSON.stringify v2)
         if value?._service
           @_service = _.clone value._service
           delete value._service
