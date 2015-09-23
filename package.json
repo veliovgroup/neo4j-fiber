@@ -1,6 +1,6 @@
 {
   "name": "neo4j-fiber",
-  "version": "1.0.0-beta.1.0.2",
+  "version": "1.0.0-beta.1.0.3",
   "description": "Neo4j REST API Driver, with support of https and all DB's features",
   "main": "./lib/index.js",
   "scripts": {

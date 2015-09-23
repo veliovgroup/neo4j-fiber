@@ -8,9 +8,9 @@ Change credentials below in according with your Neo4j DB
 Fiber(->
   db = new Neo4jDB 'http://localhost:7474', {username: 'neo4j', password: '1234'}
 
-  ###
-  Simple query - should return array, ether with nodes or empty
-  ###
+  # ###
+  # Simple query - should return array, ether with nodes or empty
+  # ###
   console.log _.isArray db.query("MATCH n RETURN n").fetch()
 
   ###
@@ -26,10 +26,14 @@ Fiber(->
   node = current[1].fetch()[0]
   result = t.commit()
 
-  console.log db.queryOne("MATCH (n:TransactionsTesting) RETURN n").n is result[0].fetch()[0].n
-  console.log db.queryOne("MATCH (n:TransactionsTesting2) RETURN n").n is result[1].fetch()[0].n
-  
+  console.log JSON.stringify(db.queryOne("MATCH (n:TransactionsTesting) RETURN n").n) is JSON.stringify result[0].fetch()[0].n
+  console.log JSON.stringify(db.queryOne("MATCH (n:TransactionsTesting2) RETURN n").n) is JSON.stringify result[1].fetch()[0].n
+
   db.transaction().commit "MATCH (n:TransactionsTesting), (n2:TransactionsTesting2) DELETE n, n2"
   console.log db.queryOne("MATCH (n:TransactionsTesting) RETURN n") is undefined
   console.log db.queryOne("MATCH (n:TransactionsTesting2) RETURN n") is undefined
+  console.log _.isArray db.propertyKeys()
+  console.log _.isArray db.labels()
+  console.log _.isArray db.relationshipTypes()
+  console.log _.isString db.version()
 ).run()
