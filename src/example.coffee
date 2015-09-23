@@ -2,7 +2,7 @@
 {Fiber, _} = require './helpers'
 
 ###
-After running code below it should output `true` - 5 times
+After running code below it should output `true` - 11 times
 Change credentials below in according with your Neo4j DB
 ###
 Fiber(->
@@ -36,4 +36,11 @@ Fiber(->
   console.log _.isArray db.labels()
   console.log _.isArray db.relationshipTypes()
   console.log _.isString db.version()
+
+  ###
+  Create, retrieve and remove a node
+  ###
+  n1 = db.nodes({test: true, asdasd: 'asjkdhkajs'})
+  console.log _.isObject n1.get()
+  console.log _.isUndefined n1.delete()
 ).run()

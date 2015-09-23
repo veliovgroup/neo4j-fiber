@@ -1,5 +1,7 @@
 {events, _, __wait} = require './helpers'
-Neo4jData = require './data'
+Neo4jData         = require './data'
+Neo4jCursor       = require './cursor'
+Neo4jRelationship = require './relationship'
 
 ###
 @locus Server
@@ -34,7 +36,7 @@ module.exports = class Neo4jNode extends Neo4jData
             to: @_db.__service.node.endpoint
             body: properties
           , undefined , @_isReactive, true
-          
+
           if node?.metadata
             @emit 'ready', node
           else

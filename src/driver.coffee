@@ -1,11 +1,13 @@
 {events, _, URL, needle, __wait, bound, NTRU_def, __error, __success, Fiber, Future} = require './helpers'
-{check, Match}   = require './check'
-Neo4jCursor      = require './cursor'
-Neo4jDB          = require './driver'
-Neo4jNode        = require './node'
-Neo4jData        = require './data'
-Neo4jEndpoint    = require './endpoint'
-Neo4jTransaction = require './transaction'
+{check, Match}    = require './check'
+Neo4jCursor       = require './cursor'
+Neo4jDB           = require './driver'
+Neo4jNode         = require './node'
+Neo4jData         = require './data'
+Neo4jEndpoint     = require './endpoint'
+Neo4jTransaction  = require './transaction'
+Neo4jRelationship = require './relationship'
+
 ###
 @locus Server
 @summary Connector to Neo4j, with basic Neo4j REST API methods implementation
@@ -123,13 +125,15 @@ module.exports = class Neo4jDB
     unless callback
       return __wait (fut) =>
         @once task.id, (error, response) =>
-          if error
-            fut.throw error
-          else
-            fut.return if noTransform then response else @__transformData _.clone(response), reactive
+          bound =>
+            if error
+              fut.throw error
+            else
+              fut.return if noTransform then response else @__transformData _.clone(response), reactive
     else
       @once task.id, (error, response) =>
-        callback error, if noTransform then response else @__transformData _.clone(response), reactive
+        bound =>
+          callback error, if noTransform then response else @__transformData _.clone(response), reactive
 
   __connect: -> 
     response = @__call @root

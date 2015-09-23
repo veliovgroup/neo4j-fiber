@@ -19,7 +19,7 @@ module.exports = class Neo4jEndpoint
         method: method
         to: @endpoint
         body: if options?.body then options.body else null
-      data = data.get() if data?.get and _.isFunction data.get
+      data = data?.get?() or data
       return data
 
   __getAndProceed: (funcName) ->
