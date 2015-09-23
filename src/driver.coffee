@@ -556,7 +556,7 @@ module.exports = class Neo4jDB
   @param {Object}   settings
   @param {Boolean}  settings.reactive - if `true` and if `plain` is true data of node(s) will be updated before returning
   @param {Boolean}  settings.plain - if `true`, results will be returned as simple objects instead of Neo4jCursor
-  @returns {[Object]} - array of Neo4jCursor(s) or array of Object id `plain` is `true`
+  @returns {[Object]} - array of Neo4jCursor(s) or array of Object if `plain` is `true`
   ###
   batch: (tasks, settings = {}, callback) ->
     if _.isFunction settings
@@ -712,7 +712,7 @@ module.exports = class Neo4jDB
 
     ###
     @locus Server
-    @summary Create constraint for label
+    @summary Remove (drop) constraint for label
     @name constraint.drop
     @class Neo4jDB
     @url http://neo4j.com/docs/2.2.5/rest-api-schema-constraints.html#rest-api-drop-constraint
