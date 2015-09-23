@@ -1,4 +1,4 @@
-{Neo4jDB} = require './index'
+{Neo4jDB}  = require './index'
 {Fiber, _} = require './helpers'
 
 ###
