@@ -1,7 +1,6 @@
 {events, _, URL, needle, __wait, bound, NTRU_def, __error, __success, Fiber, Future} = require './helpers'
 {check, Match}    = require './check'
 Neo4jCursor       = require './cursor'
-Neo4jDB           = require './driver'
 Neo4jNode         = require './node'
 Neo4jData         = require './data'
 Neo4jEndpoint     = require './endpoint'
