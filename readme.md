@@ -61,7 +61,7 @@ API:
  - [index.get(label, key, [type])]()
  - [index.drop(label, key, [type])]()
 
-[Neo4jRelationship]()
+[Neo4jRelationship]():
  - [get()]()
  - [delete()]()
  - [property(name, [value])]()
@@ -73,7 +73,7 @@ API:
  - [index.get(label, key, [type])]()
  - [index.drop(label, key, [type])]()
 
-[Neo4jTransaction]()
+[Neo4jTransaction]():
  - [commit(cypher, [opts, callback])]()
  - [execute(cypher, [opts])]()
  - [rollback()]()
@@ -81,7 +81,7 @@ API:
  - [current()]()
  - [last()]()
 
-[Neo4jCursor]()
+[Neo4jCursor]():
  - [fetch()]()
  - [first()]()
  - [current()]()
