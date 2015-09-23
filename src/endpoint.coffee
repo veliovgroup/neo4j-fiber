@@ -1,4 +1,5 @@
 {check, Match} = require './check'
+_ = require('./helpers')._
 ###
 @locus Server
 @summary Represents Neo4j endpoints
