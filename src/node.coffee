@@ -1,7 +1,8 @@
 {events, _, __wait} = require './helpers'
-Neo4jData         = require './data'
-Neo4jCursor       = require './cursor'
-Neo4jRelationship = require './relationship'
+{check, Match}      = require './check'
+Neo4jData           = require './data'
+Neo4jCursor         = require './cursor'
+Neo4jRelationship   = require './relationship'
 
 ###
 @locus Server
