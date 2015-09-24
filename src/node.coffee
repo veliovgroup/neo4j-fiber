@@ -97,7 +97,7 @@ module.exports = class Neo4jNode extends Neo4jData
     @class Neo4jNode
     @url http://neo4j.com/docs/2.2.5/rest-api-node-properties.html#rest-api-set-property-on-node
     @param {String | Object} n  - Name of the property or Object of key:value pairs
-    @param {String} v - [OPTIONAL] Value of the property
+    @param {mix} v - [OPTIONAL] Value of the property
     @returns {Neo4jNode}
     ###
     set: (n, v) =>
@@ -311,11 +311,11 @@ module.exports = class Neo4jNode extends Neo4jData
 
     ###
     @locus Server
-    @summary Remove one label from node
+    @summary Remove one or multiple label(s) from Node
     @name labels.delete
     @class Neo4jNode
     @url http://neo4j.com/docs/2.2.5/rest-api-node-labels.html#rest-api-removing-a-label-from-a-node
-    @param {String } labels - Name of Label to be removed
+    @param {String | [String]} labels - Name or array of Label names to be removed
     @returns {Neo4jNode}
     ###
     delete: (labels) =>
@@ -455,7 +455,7 @@ module.exports = class Neo4jNode extends Neo4jData
     @name index.create
     @class Neo4jNode
     @param {String} label - Label name
-    @param {[String]} key - Index key
+    @param {String} key - Index key
     @param {String} type - [OPTIONAL] Indexing type, one of: `exact` or `fulltext`, by default: `exact`
     @returns {Object}
     ###
@@ -480,9 +480,9 @@ module.exports = class Neo4jNode extends Neo4jData
     @name index.get
     @class Neo4jNode
     @param {String} label - Label name
-    @param {[String]} key - Index key
+    @param {String} key - Index key
     @param {String} type - [OPTIONAL] Indexing type, one of: `exact` or `fulltext`, by default: `exact`
-    @returns {[Object]}
+    @returns {Object}
     ###
     get: (label, key, type = 'exact') ->
       check label, String

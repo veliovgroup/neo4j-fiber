@@ -19,7 +19,7 @@ module.exports = class Neo4jCursor
   ###
   @locus Server
   @summary Returns array of fetched rows. If query was passed with `reactive` option - data will be updated each event loop.
-  @name forEach
+  @name fetch
   @class Neo4jCursor
   @returns {[Object]} - Returns array of fetched rows
   ###
@@ -35,7 +35,7 @@ module.exports = class Neo4jCursor
   @summary Move cursor to first item and return it
   @name first
   @class Neo4jCursor
-  @returns {[Object]} - Array of nodes or undefined if cursor has no items
+  @returns {[Object]} - Array of data instances or `undefined` if cursor has no items
   ###
   first: -> 
     @_current = 0
@@ -45,10 +45,10 @@ module.exports = class Neo4jCursor
 
   ###
   @locus Server
-  @summary Get current nodes on cursor
+  @summary Get current data instance(s) on cursor
   @name current
   @class Neo4jCursor
-  @returns {[Object]} - Array of nodes
+  @returns {[Object]} - Array of data instances or `undefined` if cursor has no items
   ###
   current: -> @_cursor[@_current]
 
@@ -57,7 +57,7 @@ module.exports = class Neo4jCursor
   @summary Go to next item on cursor and return it
   @name next
   @class Neo4jCursor
-  @returns {[Object]} - Array of nodes, or `undefined` if no next item
+  @returns {[Object]} - Array of data instances, or `undefined` if no next item
   ###
   next: -> 
     if @hasNext
@@ -72,7 +72,7 @@ module.exports = class Neo4jCursor
   @summary Go to previous item on cursor and return it
   @name previous
   @class Neo4jCursor
-  @returns {[Object]} - Array of nodes, or `undefined` if no previous item
+  @returns {[Object]} - Array of data instances, or `undefined` if no previous item
   ###
   previous: -> 
     if @hasPrevious
@@ -84,7 +84,7 @@ module.exports = class Neo4jCursor
 
   ###
   @locus Server
-  @summary [EXPEMENETAL] Puts all unique nodes from current cursor into Mongo collection
+  @summary [EXPEMENETAL] Puts all unique objects from current cursor into Mongo collection
   @name toMongo
   @class Neo4jCursor
   @param {Collection} MongoCollection - Instance of Mongo collection created via `new Mongo.Collection()`
@@ -120,10 +120,10 @@ module.exports = class Neo4jCursor
 
   ###
   @locus Server
-  @summary Iterates thought Neo4j query results. And returns data as Neo4jData, Neo4jRelationship or Neo4jNode instance (depends from Cypher query). This function will move cursor to latest item.
+  @summary Iterates thought Neo4j query results. And returns data as `Neo4jData`, `Neo4jRelationship` or `Neo4jNode` instance (depends from Cypher query). This function will move cursor to latest item.
   @name each
   @class Neo4jCursor
-  @param {Function} callback - Callback function, with `node` (as Neo4jData, Neo4jRelationship or Neo4jNode instance), `num`, `cursor` arguments
+  @param {Function} callback - Callback function, with `node` (as `Neo4jData`, `Neo4jRelationship` or `Neo4jNode` instance(s)), `num`, `cursor` arguments
   @returns {undefined}
   ###
   each: (callback) -> 
@@ -143,7 +143,7 @@ module.exports = class Neo4jCursor
   @summary Iterates though Neo4j query results. If query was passed with `reactive` option - data will be updated each event loop.
   @name forEach
   @class Neo4jCursor
-  @param {Function} callback - Callback function, with `node` (plain object), `num`, `cursor` arguments
+  @param {Function} callback - Callback function, with `data` (plain object), `num`, `cursor` arguments
   @returns {undefined}
   ###
   forEach: (callback, firstOnly) ->

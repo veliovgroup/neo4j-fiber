@@ -96,7 +96,7 @@ module.exports = class Neo4jRelationship extends Neo4jData
     @class Neo4jRelationship
     @url http://neo4j.com/docs/2.2.5/rest-api-relationships.html#rest-api-set-single-property-on-a-relationship
     @param {String | Object} n  - Name or object of key:value pairs
-    @param {String} v - [OPTIONAL] Value of the property
+    @param {mix} v - [OPTIONAL] Value of the property
     @returns {Neo4jRelationship}
     ###
     set: (n, v) =>
@@ -131,8 +131,8 @@ module.exports = class Neo4jRelationship extends Neo4jData
 
     ###
     @locus Server
-    @summary Delete one or all propert(y|ies) by name from a node
-             If no argument is passed, - all properties will be removed from the node.
+    @summary Delete one or all propert(y|ies) by name from a relationship
+             If no argument is passed, - all properties will be removed from the relationship.
     @name properties.delete
     @class Neo4jRelationship
     @url http://neo4j.com/docs/2.2.5/rest-api-relationship-properties.html#rest-api-remove-property-from-a-relationship
@@ -221,12 +221,12 @@ module.exports = class Neo4jRelationship extends Neo4jData
   index:
     ###
     @locus Server
-    @summary Create index on relationship for label
+    @summary Create index on relationship for type (label)
              This API poorly described in Neo4j Docs, so it may work in some different way - we are expecting
     @name index.create
     @class Neo4jRelationship
     @param {String} label - Label name
-    @param {[String]} key - Index key
+    @param {String} key - Index key
     @param {String} type - [OPTIONAL] Indexing type, one of: `exact` or `fulltext`, by default: `exact`
     @returns {Object}
     ###
@@ -246,14 +246,14 @@ module.exports = class Neo4jRelationship extends Neo4jData
 
     ###
     @locus Server
-    @summary Get indexes on relationship for label
+    @summary Get indexes on relationship for type (label)
              This API poorly described in Neo4j Docs, so it may work in some different way - we are expecting
     @name index.get
     @class Neo4jRelationship
     @param {String} label - Label name
     @param {[String]} key - Index key
     @param {String} type - [OPTIONAL] Indexing type, one of: `exact` or `fulltext`, by default: `exact`
-    @returns {[Object]}
+    @returns {Object}
     ###
     get: (label, key, type = 'exact') ->
       check label, String
@@ -267,7 +267,7 @@ module.exports = class Neo4jRelationship extends Neo4jData
 
     ###
     @locus Server
-    @summary Drop (remove) index on relationship for label
+    @summary Drop (remove) index on relationship for type (label)
              This API poorly described in Neo4j Docs, so it may work in some different way - we are expecting
     @name index.drop
     @class Neo4jRelationship
