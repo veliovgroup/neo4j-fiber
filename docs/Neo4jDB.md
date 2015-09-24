@@ -87,7 +87,12 @@ db.version()
 ```coffee
 db.graph("MATCH ()-[r]-() RETURN DISTINCT r").fetch()
 db.graph("MATCH ()-[r {props}]-() RETURN DISTINCT r", {props: p1: 'v1', p2: 'v2'}).fetch()
-db.graph "MATCH ()-[r]-() RETURN DISTINCT r", (error, cursor) -> cursor.fetch()
+db.graph "MATCH ()-[r]-() RETURN DISTINCT r", (error, cursor) -> 
+  cursor.fetch()
+  # Returns array of arrays nodes and relationships:
+  # [{nodes: [{...}, {...}, {...}], relationships: [{...}, {...}, {...}]},
+  #  {nodes: [{...}, {...}, {...}], relationships: [{...}, {...}, {...}]},
+  #  {nodes: [{...}, {...}, {...}], relationships: [{...}, {...}, {...}]}]
 ```
 
 ---
