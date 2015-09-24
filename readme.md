@@ -1,6 +1,6 @@
 [![Join the chat at https://gitter.im/VeliovGroup/ostrio-neo4jdriver](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/VeliovGroup/ostrio-neo4jdriver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
- - This driver was originally developed for [Meteor](https://www.meteor.com/), and it heavily depends from [Fibers](https://www.npmjs.com/package/fibers), so you required to wrap all code into Fiber
+ - This driver was originally developed for [Meteor](https://www.meteor.com/), and it heavily depends from [Fibers](https://www.npmjs.com/package/fibers), so you required to wrap all code into Fiber, see [example](https://github.com/VeliovGroup/neo4j-fiber/blob/master/src/example.coffee)
  - This package uses [batch operations](http://neo4j.com/docs/2.2.5/rest-api-batch-ops.html) to perform queries, than means if you sending multiple queries to Neo4j in current event loop, all of them will be sent in closest (next) event loop inside of the one batch
  - This package was tested and works like a charm with [GrapheneDB](http://www.graphenedb.com)
  - To find more about how to use Cypher read [Neo4j cheat sheet](http://neo4j.com/docs/2.2.5/cypher-refcard)
@@ -11,89 +11,19 @@ Installation
 npm install neo4j-fiber
 ```
 
+__Note:__ NPM version for Meteor hasn't `Fiber` and prefix `-meteor`, so for example version `neo4j-fiber@1.0.0` for meteor will be `neo4j-fiber@1.0.0-meteor`
+
 Demo Apps
 =======
  - Hosted on [Meteor (GrapheneDB)](http://neo4j-graph.meteor.com) and on [Heroku (GrapheneDB Add-on)](http://neo4j-graph.herokuapp.com)
 
 API:
 =======
-[Neo4jDB]():
- - [propertyKeys()]()
- - [labels()]()
- - [relationshipTypes()]()
- - [version()]()
- - [graph(cypher, [opts, callback])]()
- - [queryOne(cypher, [opts])]()
- - [querySync(cypher, [opts])]()
- - [queryAsync(cypher, [opts, callback])]()
- - [query(cypher, [opts, callback])]()
- - [cypher(cypher, [opts, callback])]()
- - Neo4jTransaction [transaction([settings, opts])]()
- - Neo4jNode [nodes([id, reactive])]()
- - [relationship.create(from, to, type, [properties])]()
- - [relationship.get(id, [reactive])]()
- - [constraint.create(label, keys, [type])]()
- - [constraint.drop(label, key, [type])]()
- - [constraint.get([label, key, type])]()
- - [index.create(label, keys)]()
- - [index.get([label])]()
- - [index.drop(label, key)]()
-
-[Neo4jNode]():
- - [get()]()
- - [delete()]()
- - [update([force])]()
- - [degree([direction, types])]()
- - [to(to, type, [properties])]()
- - [from(from, type, [properties])]()
- - [path(to, type, [settings])]()
- - [relationships([direction, types, reactive])]()
- - [property(name, [value])]()
- - [properties.get(name)]()
- - [properties.set(name, [value])]()
- - [properties.delete([names])]()
- - [properties.update(nameValue)]()
- - [label([labels])]()
- - [labels.set(labels)]()
- - [labels.replace(labels)]()
- - [labels.delete(labels)]()
- - [index.create(label, key, [type])]()
- - [index.get(label, key, [type])]()
- - [index.drop(label, key, [type])]()
-
-[Neo4jRelationship]():
- - [get()]()
- - [delete()]()
- - [property(name, [value])]()
- - [properties.get(name)]()
- - [properties.set(name, [value])]()
- - [properties.delete([names])]()
- - [properties.update(nameValue)]()
- - [index.create(label, key, [type])]()
- - [index.get(label, key, [type])]()
- - [index.drop(label, key, [type])]()
-
-[Neo4jTransaction]():
- - [commit(cypher, [opts, callback])]()
- - [execute(cypher, [opts])]()
- - [rollback()]()
- - [resetTimeout()]()
- - [current()]()
- - [last()]()
-
-[Neo4jCursor]():
- - [fetch()]()
- - [first()]()
- - [current()]()
- - [next()]()
- - [previous()]()
- - [each()]()
- - [forEach()]()
+Please see full API with examples in [our wiki](https://github.com/VeliovGroup/neo4j-fiber/wiki)
 
 
 Basic Usage Examples
 =======
-
 #### Connect to Neo4j
 ```coffeescript
 db = new Neo4jDB 'http://localhost:7474', {
