@@ -11,7 +11,7 @@ Installation
 npm install neo4j-fiber
 ```
 
-__Note:__ NPM version for Meteor hasn't `Fiber` and prefix `-meteor`, so for example version `neo4j-fiber@1.0.0` for meteor will be `neo4j-fiber@1.0.0-meteor`
+__Note:__ NPM version for Meteor hasn't `Fiber` and has a prefix `-meteor`, so for example version `neo4j-fiber@1.0.0` for meteor will be `neo4j-fiber@1.0.0-meteor`
 
 Demo Apps
 =======
