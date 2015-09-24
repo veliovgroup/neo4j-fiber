@@ -1,12 +1,25 @@
 {
   "name": "neo4j-fiber",
-  "version": "1.0.0-gamma.1.0.2",
+  "version": "1.0.0-meteor",
   "description": "Neo4j REST API Driver, with support of https and all DB's features",
   "main": "./lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
+    "Neo4j",
+    "driver",
+    "REST",
+    "API",
+    "http",
+    "https",
+    "GrapheneDB",
+    "graphene",
+    "db",
+    "fiber",
+    "fibers"
+  ],
+  "tags": [
     "Neo4j",
     "driver",
     "REST",
@@ -27,13 +40,10 @@
   "author": "Dmitriy A. (http://veliovgroup.com)",
   "license": "BSD 3-Clause",
   "dependencies": {
-    "events": "^1.0.2",
-    "fibers": "1.0.7",
-    "needle": "0.10.0",
-    "underscore": "1.8.3",
-    "url": "^0.11.0"
+    "needle": "^0.10.0",
+    "underscore": "^1.8.3"
   },
   "engines": {
-    "node": ">=0.5.2"
+    "node": ">= 0.10.x"
   }
 }
