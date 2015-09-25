@@ -7,6 +7,8 @@
 
 Installation
 =======
+
+[![Join the chat at https://gitter.im/VeliovGroup/neo4j-fiber](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/VeliovGroup/neo4j-fiber?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ```shell
 npm install neo4j-fiber
 ```
