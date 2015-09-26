@@ -1,4 +1,4 @@
-[![Join the chat at https://gitter.im/VeliovGroup/ostrio-neo4jdriver](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/VeliovGroup/ostrio-neo4jdriver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/VeliovGroup/neo4j-fiber](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/VeliovGroup/neo4j-fiber?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
  - This driver was originally developed for [Meteor](https://www.meteor.com/), and it heavily depends from [Fibers](https://www.npmjs.com/package/fibers), so you required to wrap all code into Fiber, see [example](https://github.com/VeliovGroup/neo4j-fiber/blob/master/src/example.coffee)
  - This package uses [batch operations](http://neo4j.com/docs/2.2.5/rest-api-batch-ops.html) to perform queries, than means if you sending multiple queries to Neo4j in current event loop, all of them will be sent in closest (next) event loop inside of the one batch

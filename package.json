@@ -41,7 +41,7 @@
   "license": "BSD 3-Clause",
   "dependencies": {
     "needle": "^0.10.0",
-    "fibers": "1.0.7",
+    "fibers": "^1.0.7",
     "underscore": "^1.8.3"
   },
   "engines": {
