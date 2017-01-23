@@ -74,32 +74,35 @@
 
 Basic usage:
 =====
-```coffee
-# Connect to DB:
-db = new Neo4jDB 'http://localhost:7474', {username: 'neo4j', password: '1234'}
+```js
+// Require neo4j-fiber
+const Neo4jDB = require('neo4j-fiber').Neo4jDB;
+// Connect to DB:
+const db = new Neo4jDB('http://localhost:7474', {username: 'neo4j', password: '1234'});
 
-# Create some nodes:
-users = []
-users.push db.nodes(name: 'Frank').labels.set('User')
-users.push db.nodes(name: 'Billy').labels.set('User')
-users.push db.nodes(name: 'Joe').labels.set('User')
-NYC = db.nodes(title: 'NYC').labels.set('City')
-Washington = db.nodes(title: 'Washington').labels.set('City')
-SF = db.nodes(title: 'San Francisco').labels.set('City')
+// Create some nodes:
+const users = [];
+users.push(db.nodes(name: 'Frank').labels.set('User'));
+users.push(db.nodes(name: 'Billy').labels.set('User'));
+users.push(db.nodes(name: 'Joe').labels.set('User'));
+const NYC = db.nodes(title: 'NYC').labels.set('City');
+const Washington = db.nodes(title: 'Washington').labels.set('City');
+const SF = db.nodes(title: 'San Francisco').labels.set('City');
 
-# Create some relationships:
-NYC.to Washington, "TRANSFER", {distance: 226}
-Washington.to SF, "TRANSFER", {distance: 2905}
+// Create some relationships:
+NYC.to(Washington, "TRANSFER", {distance: 226});
+Washington.to(SF, "TRANSFER", {distance: 2905});
 
-users[0].to users[1], "KNOWS", since: +new Date
-users[1].to users[2], "KNOWS", since: +new Date
-for user in users
-   user.to(NYC, "LIVES AT", since: 0)
+users[0].to(users[1], "KNOWS", {since: +new Date()});
+users[1].to(users[2], "KNOWS", {since: +new Date()});
+users.forEach((user) => {
+  user.to(NYC, "LIVES AT", {since: 0});
+});
 
-# Change some nodes
-NYC.property('location', {lat: x, lon: y})
-users[1].properties.set(surname: 'Ross')
+// Change some nodes
+NYC.property('location', {lat: x, lon: y});
+users[1].properties.set({surname: 'Ross'});
 
-# Find route between two cities
-NYC.path SF, "TRANSFER", {cost_property: 'distance', algorithm: 'dijkstra'}
+// Find route between two cities
+NYC.path(SF, "TRANSFER", {cost_property: 'distance', algorithm: 'dijkstra'});
 ```

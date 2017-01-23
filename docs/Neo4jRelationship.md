@@ -1,4 +1,4 @@
-#### *Represents Relationship API(s). For more info read [reference](http://neo4j.com/docs/2.2.5/rest-api-relationships.html)*
+#### *Represents Relationship API(s). For more info read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-relationships)*
 
 *Most basic way to work with relationships.*
 *Might be reactive data source, if `_isReactive` passed as `true` - data of relationship will be updated before returning.*
@@ -27,13 +27,13 @@
 ---
 
 ##### `get()`
-*Get relationship data. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-relationships.html#rest-api-get-relationship-by-id) for more info.*
+*Get relationship data. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-get-relationship-by-id) for more info.*
  - Returns: {*Object*}
-```coffee
-n = db.nodes()
-r = db.nodes().to n, "KNOWS", {since: +new Date}
+```js
+const n = db.nodes();
+const r = db.nodes().to(n, "KNOWS", {since: +new Date()});
 r.get()
-###
+/*
 Will return object like:
 {
   id: 89
@@ -45,85 +45,85 @@ Will return object like:
     id: 89
     type: "KNOWS"
 }
-###
+*/
 ```
 
 
 ##### `delete()`
-*Delete relationship. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-relationships.html#rest-api-delete-relationship) for more info.*
+*Delete relationship. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-delete-relationship) for more info.*
  - Returns: {*undefined*}
-```coffee
-n = db.nodes()
-r = db.nodes().to n, "KNOWS", {since: +new Date}
+```js
+const n = db.nodes();
+const r = db.nodes().to(n, "KNOWS", {since: +new Date()});
 r.delete()
 ```
 
 ---
 
 ##### `property(name, [value])`
-*Set / Get property on current relationship, if only first argument is passed - will return property value, if both arguments is presented - property will be updated or created. Read [setting reference](http://neo4j.com/docs/2.2.5/rest-api-node-properties.html#rest-api-set-property-on-node) and [getting reference](http://neo4j.com/docs/2.2.5/rest-api-relationships.html#rest-api-get-single-property-on-a-relationship) for more info.*
+*Set / Get property on current relationship, if only first argument is passed - will return property value, if both arguments is presented - property will be updated or created. Read [setting reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-set-property-on-node) and [getting reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-get-single-property-on-a-relationship) for more info.*
  - `name` {*String*} - Name of the property
  - `value` {*String*} - [OPTIONAL] Value of the property
  - Returns: {*Neo4jRelationship* | *mix*}
-```coffee
-n = db.nodes()
-r = db.nodes().to n, "KNOWS"
-r.property 'since', +new Date # Set property
-r.property 'since' # Get property, returns: 1443061267135
+```js
+const n = db.nodes();
+const r = db.nodes().to(n, "KNOWS");
+r.property('since', +new Date()); // Set property
+r.property('since'); // Get property, returns: 1443061267135
 ```
 
 ---
 
 ##### `properties.get([name])`
-*Get current relationship's one property or all properties. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-relationships.html#rest-api-get-all-properties-on-a-relationship) for more info.*
+*Get current relationship's one property or all properties. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-get-all-properties-on-a-relationship) for more info.*
  - `name` {*String*} - [OPTIONAL] Name of the property
  - Returns: {*mix*}
-```coffee
-n = db.nodes()
-r = db.nodes().to n, "KNOWS", {provider: 'James A.'}
-r.property 'since', +new Date # Set property
-r.properties.get 'since' # returns: 1443061267135
-r.properties.get() # returns: {since: 1443061267135, provider: 'James A.'}
+```js
+const n = db.nodes();
+const r = db.nodes().to(n, "KNOWS", {provider: 'James A.'});
+r.property('since', +new Date()); // Set property
+r.properties.get('since'); // returns: 1443061267135
+r.properties.get(); // returns: {since: 1443061267135, provider: 'James A.'}
 ```
 
 ---
 
 ##### `properties.set(name, [value])`
-*Set (or override, if exists) one property on current relationship. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-relationships.html#rest-api-set-single-property-on-a-relationship) for more info.*
+*Set (or override, if exists) one property on current relationship. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-set-single-property-on-a-relationship) for more info.*
  - `name` {*String* | *Object*} - Name of the property or Object of key:value pairs
  - `value` {*mix*} - [OPTIONAL] Value of the property
  - Returns: {*Neo4jRelationship*}
-```coffee
-n = db.nodes()
-r = db.nodes().to n, "KNOWS"
-r.properties.set 'since', +new Date
-r.properties.set provider: 'James A.'
+```js
+const n = db.nodes();
+const r = db.nodes().to(n, "KNOWS");
+r.properties.set('since', +new Date());
+r.properties.set({provider: 'James A.'});
 ```
 
 ---
 
 ##### `properties.delete([names])`
-*Delete one or all property(ies) by name from a relationship. If no argument is passed, - all properties will be removed from the relationship.. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-relationship-properties.html#rest-api-remove-properties-from-a-relationship) for more info.*
+*Delete one or all property(ies) by name from a relationship. If no argument is passed, - all properties will be removed from the relationship.. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-remove-properties-from-a-relationship) for more info.*
  - Returns: {*Neo4jRelationship*}
-```coffee
-n = db.nodes()
-r = db.nodes().to n, "KNOWS", {..mutliple props..}
-r.properties.delete 'since' # Remove one property
-r.properties.delete ['since', 'provider'] # Remove multiple properties
-r.properties.delete() # Remove all properties
+```js
+const n = db.nodes();
+const r = db.nodes().to(n, "KNOWS", {/*..mutliple props..*/});
+r.properties.delete('since'); // Remove one property
+r.properties.delete(['since', 'provider']); // Remove multiple properties
+r.properties.delete(); // Remove all properties
 ```
 
 ---
 
 ##### `properties.update(nameValue)`
-*This ~~will replace all existing properties~~ (not actually due to [this bug](https://github.com/neo4j/neo4j/issues/5341)), it will update existing properties and add new. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-relationships.html#rest-api-set-all-properties-on-a-relationship) for more info.*
+*This ~~will replace all existing properties~~ (not actually due to [this bug](https://github.com/neo4j/neo4j/issues/5341)), it will update existing properties and add new. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-set-all-properties-on-a-relationship) for more info.*
  - `nameValue` {*Object*} - Object of key:value pairs
  - Returns: {*Neo4jRelationship*}
-```coffee
-n = db.nodes()
-r = db.nodes().to n, "KNOWS", {since: 1443061267135, provider: 'James A.'}
-r.properties.update uuid: 357894
-r.properties.get() # {uuid: 357894}
+```js
+const n = db.nodes();
+const r = db.nodes().to(n, "KNOWS", {since: 1443061267135, provider: 'James A.'});
+r.properties.update({uuid: 357894});
+r.properties.get(); // {uuid: 357894}
 ```
 
 ---
@@ -134,10 +134,10 @@ r.properties.get() # {uuid: 357894}
  - `key` {*String*} - Index key
  - `type` {*String*} - [OPTIONAL] Indexing type, one of: `exact` or `fulltext`, by default: `exact`
  - Returns: {*Object*}
-```coffee
-n = db.nodes()
-r = db.nodes().to n, "KNOWS", {uuid: 890234}
-r.index.create 'KNOWS', 'uuid'
+```js
+const n = db.nodes();
+const r = db.nodes().to(n, "KNOWS", {uuid: 890234});
+r.index.create('KNOWS', 'uuid');
 ```
 
 ---
@@ -148,11 +148,11 @@ r.index.create 'KNOWS', 'uuid'
  - `key` {*String*} - Index key
  - `type` {*String*} - [OPTIONAL] Indexing type, one of: `exact` or `fulltext`, by default: `exact`
  - Returns: {*Object*}
-```coffee
-n = db.nodes()
-r = db.nodes().to n, "KNOWS", {uuid: 890234}
-r.index.create 'KNOWS', 'uuid'
-r.index.get 'KNOWS', 'uuid'
+```js
+const n = db.nodes();
+const r = db.nodes().to(n, "KNOWS", {uuid: 890234});
+r.index.create('KNOWS', 'uuid');
+r.index.get('KNOWS', 'uuid');
 ```
 
 ---
@@ -163,9 +163,9 @@ r.index.get 'KNOWS', 'uuid'
  - `key` {*String*} - Index key
  - `type` {*String*} - [OPTIONAL] Indexing type, one of: `exact` or `fulltext`, by default: `exact`
  - Returns: {*[]*} - Empty array
-```coffee
-n = db.nodes()
-r = db.nodes().to n, "KNOWS", {uuid: 890234}
-r.index.create 'KNOWS', 'uuid'
-r.index.drop 'KNOWS', 'uuid'
+```js
+const n = db.nodes();
+const r = db.nodes().to(n, "KNOWS", {uuid: 890234});
+r.index.create('KNOWS', 'uuid');
+r.index.drop('KNOWS', 'uuid');
 ```

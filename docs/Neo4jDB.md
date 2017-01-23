@@ -32,7 +32,8 @@
  - `credentials.password` {*String*} - Password. Alias: `pass`
  - Returns: {*Neo4jDB*}
 ```js
-var db = new Neo4jDB('http://localhost:7474', {username: 'neo4j', password: '1234'});
+const Neo4jDB = require('neo4j-fiber').Neo4jDB;
+const db = new Neo4jDB('http://localhost:7474', {username: 'neo4j', password: '1234'});
 ```
 
 -----
@@ -74,7 +75,7 @@ db.version();
 ---
 
 ##### `graph(settings, [opts, callback])`
-*Request results as graph representation, read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-transactional.html#rest-api-return-results-in-graph-format) for more info*
+*Request results as graph representation, read [reference](http://neo4j.com/docs/2.3.8/rest-api-transactional.html#rest-api-return-results-in-graph-format) for more info*
 
  - `settings` {*Object* | String} - Cypher query as String or object of settings
  - `settings.cypher` {*String*} - Cypher query, alias: `settings.query`
@@ -87,7 +88,7 @@ db.version();
 ```js
 db.graph("MATCH ()-[r]-() RETURN DISTINCT r").fetch();
 db.graph("MATCH ()-[r {props}]-() RETURN DISTINCT r", {props: p1: 'v1', p2: 'v2'}).fetch();
-db.graph "MATCH ()-[r]-() RETURN DISTINCT r", function (error, cursor) {
+db.graph "MATCH ()-[r]-() RETURN DISTINCT r", (error, cursor) => {
   cursor.fetch();
   // Returns array of arrays nodes and relationships:
   // [{nodes: [{...}, {...}, {...}], relationships: [{...}, {...}, {...}]},
@@ -130,7 +131,7 @@ db.querySync("MATCH (n) WHERE id(n) = {id} RETURN n", {id: id}).fetch();
  - `callback` {*Function*} - Callback function with `error` and `cursor` arguments
  - Returns: {*[Neo4jCursor](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class)*}
 ```js
-db.queryAsync("MATCH (n) WHERE id(n) = {id} RETURN n", {id: id}, function (error, cursor) {
+db.queryAsync("MATCH (n) WHERE id(n) = {id} RETURN n", {id: id}, (error, cursor) => {
   cursor.fetch();
 });
 ```
@@ -138,7 +139,7 @@ db.queryAsync("MATCH (n) WHERE id(n) = {id} RETURN n", {id: id}, function (error
 ---
 
 ##### `query(settings, [opts, callback])`
-*Send query to Neo4j via transactional endpoint. This Transaction will be immediately committed. This transaction will be sent inside batch, so if you call multiple async queries, all of them will be sent in one batch in closest (next) event loop. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-transactional.html#rest-api-begin-and-commit-a-transaction-in-one-request) for more info.*
+*Send query to Neo4j via transactional endpoint. This Transaction will be immediately committed. This transaction will be sent inside batch, so if you call multiple async queries, all of them will be sent in one batch in closest (next) event loop. Read [reference](http://neo4j.com/docs/2.3.8/rest-api-transactional.html#rest-api-begin-and-commit-a-transaction-in-one-request) for more info.*
 
  - `settings` {*Object* | String} - Cypher query as String or object of settings
  - `settings.cypher` {*String*} - Cypher query, alias: `settings.query`
@@ -151,7 +152,7 @@ db.queryAsync("MATCH (n) WHERE id(n) = {id} RETURN n", {id: id}, function (error
 ```js
 db.query("MATCH (n) RETURN n").fetch();
 db.query("MATCH (n) WHERE id(n) = {id} RETURN n", {id},).fetch();
-db.query("MATCH (n) RETURN n", function (error, cursor) {
+db.query("MATCH (n) RETURN n", (error, cursor) => {
   cursor.fetch();
 });
 ```
@@ -172,7 +173,7 @@ db.query("MATCH (n) RETURN n", function (error, cursor) {
 ```js
 db.cypher("MATCH (n) RETURN n").fetch();
 db.cypher("MATCH (n) WHERE id(n) = {id} RETURN n", {id},).fetch();
-db.cypher("MATCH (n) RETURN n", function (error, cursor) {
+db.cypher("MATCH (n) RETURN n", (error, cursor) => {
   cursor.fetch();
 });
 ```
@@ -191,7 +192,7 @@ db.cypher("MATCH (n) RETURN n", function (error, cursor) {
  - `settings.plain` {*Boolean*} - if `true`, results will be returned as simple objects instead of [`Neo4jCursor`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class)
  - Returns: {*[Object]*} - Array of [`Neo4jCursor`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class)s or array of Objects if `plain` is `true`
 ```js
-var cursors = db.batch([{
+const cursors = db.batch([{
   method: "POST",
   to: db.__service.cypher.endpoint,
   body: {
@@ -209,7 +210,7 @@ var cursors = db.batch([{
   body: query: "MATCH (n:BatchTest) DELETE n"
 }]);
 
-cursors.forEach(function (cursor) {
+cursors.forEach( (cursor) => {
   if (cursor._batchId === 999) {
     cursor.fetch();
   }
@@ -219,7 +220,7 @@ cursors.forEach(function (cursor) {
 ---
 
 ##### `transaction([settings, opts])`
-*Open Neo4j Transaction. All methods on [`Neo4jTransaction`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jTransaction-Class) instance is chainable. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-transactional.html#rest-api-begin-a-transaction) for more info.*
+*Open Neo4j Transaction. All methods on [`Neo4jTransaction`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jTransaction-Class) instance is chainable. Read [reference](http://neo4j.com/docs/2.3.8/rest-api-transactional.html#rest-api-begin-a-transaction) for more info.*
 
  - `settings` {*Function* | *Object* | *String* | *[String]*} - [Optional] Cypher query as String or Array of Cypher queries or object of settings
  - `settings.cypher` {*String* | *[String]*} - Cypher query(ies), alias: `settings.query`
@@ -250,7 +251,7 @@ db.nodes(123).get();
 ---
 
 ##### `relationship.create(from, to, type, [properties])`
-*Create relationship between two nodes. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-relationships.html#rest-api-create-a-relationship-with-properties) for more info.*
+*Create relationship between two nodes. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-create-a-relationship-with-properties) for more info.*
 
  - `from` {*Number* | *[Neo4jNode](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jNode-Class)*} - id or instance of node
  - `to` {*Number* | *[Neo4jNode](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jNode-Class)*} - id or instance of node
@@ -260,8 +261,8 @@ db.nodes(123).get();
  - Returns: {*[Neo4jRelationship](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jRelationship-Class)*}
 ```js
 db.relationship.create(123, 124, "KNOWS").get();
-var n1 = db.nodes();
-var n2 = db.nodes();
+const n1 = db.nodes();
+const n2 = db.nodes();
 db.relationship.create(n1, n2, "KNOWS", {prop: 'value'}).get();
 db.relationship.create(123, 124, "KNOWS", {prop: 'value', _reactive: true}).get();
 ```
@@ -269,13 +270,13 @@ db.relationship.create(123, 124, "KNOWS", {prop: 'value', _reactive: true}).get(
 ---
 
 ##### `relationship.get(id, [reactive])`
-*Get relationship object, by id. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-relationships.html#rest-api-get-relationship-by-id) for more info.*
+*Get relationship object, by id. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-get-relationship-by-id) for more info.*
 
  - `id` {*Number*} - Relationship's id
  - `reactive` {*Boolean*} - Set [`Neo4jRelationship`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jRelationship-Class) instance to reactive mode
  - Returns: {*[Neo4jRelationship](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jRelationship-Class)*}
 ```js
-var r = db.relationship.get(56);
+const r = db.relationship.get(56);
 r.property('key', 'value');
 r.get();
 r.delete();
@@ -284,7 +285,7 @@ r.delete();
 ---
 
 ##### `constraint.create(label, keys, [type])`
-*Create constraint for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-schema-constraints.html#rest-api-create-uniqueness-constraint) for more info.*
+*Create constraint for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-create-uniqueness-constraint) for more info.*
 
  - `label` {*String*} - Label name
  - `keys` {*[String]*} - Keys
@@ -298,7 +299,7 @@ db.constraint.create('Person', ['uuid']);
 ---
 
 ##### `constraint.drop(label, key, [type])`
-*Remove (drop) constraint for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-schema-constraints.html#rest-api-drop-constraint) for more info.*
+*Remove (drop) constraint for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-drop-constraint) for more info.*
 
  - `label` {*String*} - Label name
  - `key` {*String*} - Key
@@ -313,7 +314,7 @@ db.constraint.drop('Person', 'uuid');
 ---
 
 ##### `constraint.get(label, key, [type])`
-*Get constraint(s) for label, or get all DB's constraints. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-schema-constraints.html#rest-api-get-a-specific-uniqueness-constraint) for more info.*
+*Get constraint(s) for label, or get all DB's constraints. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-get-a-specific-uniqueness-constraint) for more info.*
 
  - `label` {*String*} - Label name
  - `key` {*String*} - Key
@@ -330,7 +331,7 @@ db.constraint.get('Person', 'uuid'); // Certain constraint on label
 ---
 
 ##### `index.create(label, keys)`
-*Create index for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-schema-indexes.html#rest-api-create-index) for more info.*
+*Create index for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-create-index) for more info.*
 
  - `label` {*String*} - Label name
  - `keys` {*[String]*} - Index keys
@@ -343,7 +344,7 @@ db.index.create('Person', ['uuid']);
 ---
 
 ##### `index.get([label])`
-*Get indexes for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-schema-indexes.html#rest-api-list-indexes-for-a-label) for more info.*
+*Get indexes for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-list-indexes-for-a-label) for more info.*
 
  - `label` {*String*} - Label name
  - Returns: {*Object*}
@@ -357,7 +358,7 @@ db.index.get(); // All DB-wide indexes
 ---
 
 ##### `index.drop(label, key)`
-*Remove (drop) index for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-schema-indexes.html#rest-api-drop-index) for more info.*
+*Remove (drop) index for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-drop-index) for more info.*
 
  - `label` {*String*} - Label name
  - `key` {*String*} - Index key
