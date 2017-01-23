@@ -303,7 +303,7 @@ db.constraint.create('Person', ['uuid']);
 ---
 
 ##### `constraint.drop(label, key, [type])`
-*Remove (drop) constraint for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-drop-constraint) for more info.*
+*Remove (drop) constraint for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-drop-uniqueness-constraint) for more info.*
 
  - `label` {*String*} - Label name
  - `key` {*String*} - Key
