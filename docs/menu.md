@@ -1,5 +1,5 @@
 ###### [Meteor.js Driver](https://github.com/VeliovGroup/ostrio-neo4jdriver)
-###### [Demo application](http://neo4j-graph.meteor.com/)
+###### [Demo application](http://neo4j-graph.herokuapp.com/)
 
 ###### [Neo4jDB](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jDB-Class):
  - [`propertyKeys()`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jDB-Class#propertykeys)

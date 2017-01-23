@@ -24,15 +24,18 @@
 
 -----
 
-##### **`new Neo4jDB([url, credentials])`**
+##### **`new Neo4jDB([url, opts])`**
 *Connect to DB*
  - `url` {*String*} - URL to Neo4j like: `http://localhost:7474`, this package supports `https://` protocol. This argument is optional, you may put URL into environment variable `NEO4J_URL` or `GRAPHENEDB_URL`
- - `credentials` {*Object*} - This argument is optional, you may omit it if your Neo4j has no authentication.
- - `credentials.username` {*String*} - Username. Alias: `user`
- - `credentials.password` {*String*} - Password. Alias: `pass`
+ - `opts` {*Object*} - This argument is optional, you may omit it if your Neo4j has no authentication.
+ - `opts.username` {*String*} - Username. Alias: `user`
+ - `opts.password` {*String*} - Password. Alias: `pass`
+ - `opts.base`     {*String*} - Base path at Neo4j server, default: `db/data`
+ - `opts.headers`  {*Object*} - Additional headers, will be used in every request to Neo4j, default headers: `{Accept: 'application/json; charset=UTF-8', 'X-Stream': 'true', 'Content-Type': 'application/json'};`
  - Returns: {*Neo4jDB*}
-```coffee
-db = new Neo4jDB 'http://localhost:7474', {username: 'neo4j', password: '1234'}
+```js
+const Neo4jDB = require('neo4j-fiber').Neo4jDB;
+const db = new Neo4jDB('http://localhost:7474', {username: 'neo4j', password: '1234'});
 ```
 
 -----
@@ -40,8 +43,8 @@ db = new Neo4jDB 'http://localhost:7474', {username: 'neo4j', password: '1234'}
 ##### `propertyKeys()`
 *List all property keys ever used in the database*
  - Returns: {*[String]*}
-```coffee
-db.propertyKeys()
+```js
+db.propertyKeys();
 ```
 
 ---
@@ -49,8 +52,8 @@ db.propertyKeys()
 ##### `labels()`
 *List all labels ever used in the database*
  - Returns: {*[String]*}
-```coffee
-db.labels()
+```js
+db.labels();
 ```
 
 ---
@@ -58,8 +61,8 @@ db.labels()
 ##### `relationshipTypes()`
 *List all relationship types ever used in the database*
  - Returns: {*[String]*}
-```coffee
-db.relationshipTypes()
+```js
+db.relationshipTypes();
 ```
 
 ---
@@ -67,14 +70,14 @@ db.relationshipTypes()
 ##### `version()`
 *Return version of Neo4j server we connected to*
  - Returns: {*String*}
-```coffee
-db.version()
+```js
+db.version();
 ```
 
 ---
 
 ##### `graph(settings, [opts, callback])`
-*Request results as graph representation, read [reference](http://neo4j.com/docs/2.2.5/rest-api-transactional.html#rest-api-return-results-in-graph-format) for more info*
+*Request results as graph representation, read [reference](http://neo4j.com/docs/2.3.8/rest-api-transactional.html#rest-api-return-results-in-graph-format) for more info*
 
  - `settings` {*Object* | String} - Cypher query as String or object of settings
  - `settings.cypher` {*String*} - Cypher query, alias: `settings.query`
@@ -84,15 +87,16 @@ db.version()
  - `opts` {*Object*} - Map of cypher query parameters
  - `callback` {*Function*} - Callback function. If passed, the method runs asynchronously
  - Returns: {*[Neo4jCursor](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class)*}
-```coffee
-db.graph("MATCH ()-[r]-() RETURN DISTINCT r").fetch()
-db.graph("MATCH ()-[r {props}]-() RETURN DISTINCT r", {props: p1: 'v1', p2: 'v2'}).fetch()
-db.graph "MATCH ()-[r]-() RETURN DISTINCT r", (error, cursor) -> 
-  cursor.fetch()
-  # Returns array of arrays nodes and relationships:
-  # [{nodes: [{...}, {...}, {...}], relationships: [{...}, {...}, {...}]},
-  #  {nodes: [{...}, {...}, {...}], relationships: [{...}, {...}, {...}]},
-  #  {nodes: [{...}, {...}, {...}], relationships: [{...}, {...}, {...}]}]
+```js
+db.graph("MATCH ()-[r]-() RETURN DISTINCT r").fetch();
+db.graph("MATCH ()-[r {props}]-() RETURN DISTINCT r", {props: p1: 'v1', p2: 'v2'}).fetch();
+db.graph "MATCH ()-[r]-() RETURN DISTINCT r", (error, cursor) => {
+  cursor.fetch();
+  // Returns array of arrays nodes and relationships:
+  // [{nodes: [{...}, {...}, {...}], relationships: [{...}, {...}, {...}]},
+  //  {nodes: [{...}, {...}, {...}], relationships: [{...}, {...}, {...}]},
+  //  {nodes: [{...}, {...}, {...}], relationships: [{...}, {...}, {...}]}]
+});
 ```
 
 ---
@@ -103,8 +107,8 @@ db.graph "MATCH ()-[r]-() RETURN DISTINCT r", (error, cursor) ->
  - `cypher` {*String*} - Cypher query as String
  - `opts` {*Object*} - Map of cypher query parameters
  - Returns: {*Object*}
-```coffee
-db.queryOne("MATCH (n) LIMIT 1 RETURN n").n
+```js
+db.queryOne("MATCH (n) LIMIT 1 RETURN n").n;
 ```
 
 ---
@@ -115,8 +119,8 @@ db.queryOne("MATCH (n) LIMIT 1 RETURN n").n
  - `cypher` {*String*} - Cypher query as String
  - `opts` {*Object*} - Map of cypher query parameters
  - Returns: {*[Neo4jCursor](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class)*}
-```coffee
-db.querySync("MATCH (n) WHERE id(n) = {id} RETURN n", {id}).fetch()
+```js
+db.querySync("MATCH (n) WHERE id(n) = {id} RETURN n", {id: id}).fetch();
 ```
 
 ---
@@ -128,14 +132,16 @@ db.querySync("MATCH (n) WHERE id(n) = {id} RETURN n", {id}).fetch()
  - `opts` {*Object*} - Map of cypher query parameters
  - `callback` {*Function*} - Callback function with `error` and `cursor` arguments
  - Returns: {*[Neo4jCursor](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class)*}
-```coffee
-db.queryAsync "MATCH (n) WHERE id(n) = {id} RETURN n", {id}, (error, cursor) -> cursor.fetch()
+```js
+db.queryAsync("MATCH (n) WHERE id(n) = {id} RETURN n", {id: id}, (error, cursor) => {
+  cursor.fetch();
+});
 ```
 
 ---
 
 ##### `query(settings, [opts, callback])`
-*Send query to Neo4j via transactional endpoint. This Transaction will be immediately committed. This transaction will be sent inside batch, so if you call multiple async queries, all of them will be sent in one batch in closest (next) event loop. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-transactional.html#rest-api-begin-and-commit-a-transaction-in-one-request) for more info.*
+*Send query to Neo4j via transactional endpoint. This Transaction will be immediately committed. This transaction will be sent inside batch, so if you call multiple async queries, all of them will be sent in one batch in closest (next) event loop. Read [reference](http://neo4j.com/docs/2.3.8/rest-api-transactional.html#rest-api-begin-and-commit-a-transaction-in-one-request) for more info.*
 
  - `settings` {*Object* | String} - Cypher query as String or object of settings
  - `settings.cypher` {*String*} - Cypher query, alias: `settings.query`
@@ -145,16 +151,18 @@ db.queryAsync "MATCH (n) WHERE id(n) = {id} RETURN n", {id}, (error, cursor) -> 
  - `opts` {*Object*} - Map of cypher query parameters
  - `callback` {*Function*} - Callback function. If passed, the method runs asynchronously
  - Returns: {*[Neo4jCursor](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class)*}
-```coffee
-db.query("MATCH (n) RETURN n").fetch()
-db.query("MATCH (n) WHERE id(n) = {id} RETURN n", {id},).fetch()
-db.query "MATCH (n) RETURN n", (error, cursor) -> cursor.fetch()
+```js
+db.query("MATCH (n) RETURN n").fetch();
+db.query("MATCH (n) WHERE id(n) = {id} RETURN n", {id}).fetch();
+db.query("MATCH (n) RETURN n", (error, cursor) => {
+  cursor.fetch();
+});
 ```
 
 ---
 
 ##### `cypher(cypher, [opts, callback])`
-*Send query to Neo4j via cypher endpoint. This query will be sent inside batch, so if you call multiple async queries, all of them will be sent in one batch in closest (next) event loop. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-cypher.html) for more info.*
+*Send query to Neo4j via cypher endpoint. This query will be sent inside batch, so if you call multiple async queries, all of them will be sent in one batch in closest (next) event loop. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-cypher) for more info.*
 
  - `settings` {*Object* | String} - Cypher query as String or object of settings
  - `settings.cypher` {*String*} - Cypher query, alias: `settings.query`
@@ -164,16 +172,20 @@ db.query "MATCH (n) RETURN n", (error, cursor) -> cursor.fetch()
  - `opts` {*Object*} - Map of cypher query parameters
  - `callback` {*Function*} - Callback function. If passed, the method runs asynchronously
  - Returns: {*[Neo4jCursor](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class)*}
-```coffee
-db.cypher("MATCH (n) RETURN n").fetch()
-db.cypher("MATCH (n) WHERE id(n) = {id} RETURN n", {id},).fetch()
-db.cypher "MATCH (n) RETURN n", (error, cursor) -> cursor.fetch()
+
+Note: this is legacy method.
+```js
+db.cypher("MATCH (n) RETURN n").fetch();
+db.cypher("MATCH (n) WHERE id(n) = {id} RETURN n", {id}).fetch();
+db.cypher("MATCH (n) RETURN n", (error, cursor) => {
+  cursor.fetch();
+});
 ```
 
 ---
 
 ##### `batch(tasks, [settings, callback])`
-*Sent tasks to batch endpoint, this method allows to work directly with Neo4j REST API. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-batch-ops.html) for more info.*
+*Send tasks to batch endpoint, this method allows to work directly with Neo4j REST API. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-batch-ops) for more info.*
  - `tasks` {*[Object]*} - Array of tasks
  - `tasks.$.method` {*String*} - HTTP(S) method used sending this task, one of: 'POST', 'GET', 'PUT', 'DELETE', 'HEAD'
  - `tasks.$.to` {*String*} - Endpoint (URL) for task
@@ -183,32 +195,36 @@ db.cypher "MATCH (n) RETURN n", (error, cursor) -> cursor.fetch()
  - `settings.reactive` {*Boolean*} - if `true` and if `plain` is true data of node(s) will be updated before returning
  - `settings.plain` {*Boolean*} - if `true`, results will be returned as simple objects instead of [`Neo4jCursor`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class)
  - Returns: {*[Object]*} - Array of [`Neo4jCursor`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class)s or array of Objects if `plain` is `true`
-```coffee
-cursors = db.batch [
-  method: "POST"
-  to: db.__service.cypher.endpoint
-  body: 
-    query: "CREATE (n:BatchTest {data})"
+```js
+const cursors = db.batch([{
+  method: "POST",
+  to: db.__service.cypher.endpoint,
+  body: {
+    query: "CREATE (n:BatchTest {data})",
     params: data: BatchTest: true
-,
-  method: "POST"
-  to: db.__service.cypher.endpoint
-  body: query: "MATCH (n:BatchTest) RETURN n"
+  }
+}, {
+  method: "POST",
+  to: db.__service.cypher.endpoint,
+  body: query: "MATCH (n:BatchTest) RETURN n",
   id: 999
-,
-  method: "POST"
-  to: db.__service.cypher.endpoint
-  body: query: "MATCH (n:BatchTest) DELETE n"]
+}, {
+  method: "POST",
+  to: db.__service.cypher.endpoint,
+  body: query: "MATCH (n:BatchTest) DELETE n"
+}]);
 
-for cursor in cursors
-  if res._batchId is 999
-    cursor.fetch()
+cursors.forEach( (cursor) => {
+  if (cursor._batchId === 999) {
+    cursor.fetch();
+  }
+});
 ```
 
 ---
 
 ##### `transaction([settings, opts])`
-*Open Neo4j Transaction. All methods on [`Neo4jTransaction`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jTransaction-Class) instance is chainable. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-transactional.html#rest-api-begin-a-transaction) for more info.*
+*Open Neo4j Transaction. All methods on [`Neo4jTransaction`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jTransaction-Class) instance is chainable. Read [reference](http://neo4j.com/docs/2.3.8/rest-api-transactional.html#rest-api-begin-a-transaction) for more info.*
 
  - `settings` {*Function* | *Object* | *String* | *[String]*} - [Optional] Cypher query as String or Array of Cypher queries or object of settings
  - `settings.cypher` {*String* | *[String]*} - Cypher query(ies), alias: `settings.query`
@@ -217,29 +233,29 @@ for cursor in cursors
  - `settings.reactive` {*Boolean*} - Reactive nodes updates when retrieve data from [`Neo4jCursor`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class). Default: `false`. Alias: `settings.reactiveNodes`
  - `opts` {*Object*} - [Optional] Map of cypher query(ies) parameters
  - Returns: {*Neo4jTransaction*} - [`Neo4jTransaction`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jTransaction-Class) instance
-```coffee
-db.transaction("MATCH (n) RETURN n").commit()
-db.transaction(["CREATE (n:Person)", "MATCH (n:Person) SET n.id = {id} RETURN n"], {id}).commit()[1].fetch()
+```js
+db.transaction("MATCH (n) RETURN n").commit();
+db.transaction(["CREATE (n:Person)", "MATCH (n:Person) SET n.id = {id} RETURN n"], {id}).commit()[1].fetch();
 ```
 
 ---
 
 ##### `nodes([id, reactive])`
-*Create or get node object. If no arguments is passed, then new node will be created. If first argument is number, then node will be fetched from Neo4j. If first argument is Object, then new node will be created with passed properties. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-nodes.html) for more info.*
+*Create or get node object. If no arguments is passed, then new node will be created. If first argument is number, then node will be fetched from Neo4j. If first argument is Object, then new node will be created with passed properties. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-nodes) for more info.*
 
  - `id` {*Number* | *Object*}  - [Optional], see description above
  - `reactive` {*Boolean*}  - if passed as `true` - data of node will be updated before returning
  - Returns: {*Neo4jNode*} - [Neo4jNode](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jNode-Class) instance
-```coffee
-db.nodes().get()
-db.nodes({prop: 'value'}).get()
-db.nodes(123).get()
+```js
+db.nodes().get();
+db.nodes({prop: 'value'}).get();
+db.nodes(123).get();
 ```
 
 ---
 
 ##### `relationship.create(from, to, type, [properties])`
-*Create relationship between two nodes. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-relationships.html#rest-api-create-a-relationship-with-properties) for more info.*
+*Create relationship between two nodes. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-create-a-relationship-with-properties) for more info.*
 
  - `from` {*Number* | *[Neo4jNode](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jNode-Class)*} - id or instance of node
  - `to` {*Number* | *[Neo4jNode](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jNode-Class)*} - id or instance of node
@@ -247,112 +263,112 @@ db.nodes(123).get()
  - `properties` {*Object*} - Relationship's properties
  - `properties._reactive` {*Boolean*} - Set [`Neo4jRelationship`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jRelationship-Class) instance to reactive mode
  - Returns: {*[Neo4jRelationship](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jRelationship-Class)*}
-```coffee
-db.relationship.create(123, 124, "KNOWS").get()
-n1 = db.nodes()
-n2 = db.nodes()
-db.relationship.create(n1, n2, "KNOWS", {prop: 'value'}).get()
-db.relationship.create(123, 124, "KNOWS", {prop: 'value', _reactive: true}).get()
+```js
+db.relationship.create(123, 124, "KNOWS").get();
+const n1 = db.nodes();
+const n2 = db.nodes();
+db.relationship.create(n1, n2, "KNOWS", {prop: 'value'}).get();
+db.relationship.create(123, 124, "KNOWS", {prop: 'value', _reactive: true}).get();
 ```
 
 ---
 
 ##### `relationship.get(id, [reactive])`
-*Get relationship object, by id. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-relationships.html#rest-api-get-relationship-by-id) for more info.*
+*Get relationship object, by id. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-get-relationship-by-id) for more info.*
 
  - `id` {*Number*} - Relationship's id
  - `reactive` {*Boolean*} - Set [`Neo4jRelationship`](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jRelationship-Class) instance to reactive mode
  - Returns: {*[Neo4jRelationship](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jRelationship-Class)*}
-```coffee
-r = db.relationship.get 56
-r.property 'key', 'value'
-r.get()
-r.delete()
+```js
+const r = db.relationship.get(56);
+r.property('key', 'value');
+r.get();
+r.delete();
 ```
 
 ---
 
 ##### `constraint.create(label, keys, [type])`
-*Create constraint for label. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-schema-constraints.html#rest-api-create-uniqueness-constraint) for more info.*
+*Create constraint for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-create-uniqueness-constraint) for more info.*
 
  - `label` {*String*} - Label name
  - `keys` {*[String]*} - Keys
  - `type` {*String*} - Constraint type, default `uniqueness`
  - Returns: {*Object*}
-```coffee
-db.nodes({uuid: 123}).labels.set 'Person'
-db.constraint.create 'Person', ['uuid']
+```js
+db.nodes({uuid: 123}).labels.set('Person');
+db.constraint.create('Person', ['uuid']);
 ```
 
 ---
 
 ##### `constraint.drop(label, key, [type])`
-*Remove (drop) constraint for label. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-schema-constraints.html#rest-api-drop-constraint) for more info.*
+*Remove (drop) constraint for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-drop-uniqueness-constraint) for more info.*
 
  - `label` {*String*} - Label name
  - `key` {*String*} - Key
  - `type` {*String*} - Constraint type, default `uniqueness`
  - Returns: {*[]*} - Empty array
-```coffee
-db.nodes({uuid: 123}).labels.set 'Person'
-db.constraint.create 'Person', ['uuid']
-db.constraint.drop 'Person', 'uuid'
+```js
+db.nodes({uuid: 123}).labels.set('Person');
+db.constraint.create('Person', ['uuid']);
+db.constraint.drop('Person', 'uuid');
 ```
 
 ---
 
 ##### `constraint.get(label, key, [type])`
-*Get constraint(s) for label, or get all DB's constraints. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-schema-constraints.html#rest-api-get-a-specific-uniqueness-constraint) for more info.*
+*Get constraint(s) for label, or get all DB's constraints. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-get-a-specific-uniqueness-constraint) for more info.*
 
  - `label` {*String*} - Label name
  - `key` {*String*} - Key
  - `type` {*String*} - Constraint type, default `uniqueness`
  - Returns: {*[Object]*}
-```coffee
-db.nodes({uuid: 123}).labels.set 'Person'
-db.constraint.create 'Person', ['uuid']
-db.constraint.get() # All DB-wide constraints
-db.constraint.get 'Person' # All constraints on label
-db.constraint.get 'Person', 'uuid' # Certain constraint on label
+```js
+db.nodes({uuid: 123}).labels.set('Person');
+db.constraint.create('Person', ['uuid']);
+db.constraint.get(); // All DB-wide constraints
+db.constraint.get('Person'); // All constraints on label
+db.constraint.get('Person', 'uuid'); // Certain constraint on label
 ```
 
 ---
 
 ##### `index.create(label, keys)`
-*Create index for label. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-schema-indexes.html#rest-api-create-index) for more info.*
+*Create index for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-create-index) for more info.*
 
  - `label` {*String*} - Label name
  - `keys` {*[String]*} - Index keys
  - Returns: {*Object*}
-```coffee
-db.nodes({uuid: 123}).labels.set 'Person'
-db.index.create 'Person', ['uuid']
+```js
+db.nodes({uuid: 123}).labels.set('Person');
+db.index.create('Person', ['uuid']);
 ```
 
 ---
 
 ##### `index.get([label])`
-*Get indexes for label. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-schema-indexes.html#rest-api-list-indexes-for-a-label) for more info.*
+*Get indexes for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-list-indexes-for-a-label) for more info.*
 
  - `label` {*String*} - Label name
  - Returns: {*Object*}
-```coffee
-db.nodes({uuid: 123}).labels.set 'Person'
-db.index.create 'Person', ['uuid']
-db.index.get 'Person'
-db.index.get() # All DB-wide indexes
+```js
+db.nodes({uuid: 123}).labels.set('Person');
+db.index.create('Person', ['uuid']);
+db.index.get('Person');
+db.index.get(); // All DB-wide indexes
 ```
 
 ---
 
 ##### `index.drop(label, key)`
-*Remove (drop) index for label. Read [reference](http://neo4j.com/docs/2.2.5/rest-api-schema-indexes.html#rest-api-drop-index) for more info.*
+*Remove (drop) index for label. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-drop-index) for more info.*
 
  - `label` {*String*} - Label name
  - `key` {*String*} - Index key
  - Returns: {*Object*}
-```coffee
-db.nodes({uuid: 123}).labels.set 'Person'
-db.index.create 'Person', ['uuid']
-db.index.drop 'Person', 'uuid'
+```js
+db.nodes({uuid: 123}).labels.set('Person');
+db.index.create('Person', ['uuid']);
+db.index.drop('Person', 'uuid');
 ```
