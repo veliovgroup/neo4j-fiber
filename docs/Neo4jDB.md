@@ -24,12 +24,14 @@
 
 -----
 
-##### **`new Neo4jDB([url, credentials])`**
+##### **`new Neo4jDB([url, opts])`**
 *Connect to DB*
  - `url` {*String*} - URL to Neo4j like: `http://localhost:7474`, this package supports `https://` protocol. This argument is optional, you may put URL into environment variable `NEO4J_URL` or `GRAPHENEDB_URL`
- - `credentials` {*Object*} - This argument is optional, you may omit it if your Neo4j has no authentication.
- - `credentials.username` {*String*} - Username. Alias: `user`
- - `credentials.password` {*String*} - Password. Alias: `pass`
+ - `opts` {*Object*} - This argument is optional, you may omit it if your Neo4j has no authentication.
+ - `opts.username` {*String*} - Username. Alias: `user`
+ - `opts.password` {*String*} - Password. Alias: `pass`
+ - `opts.base`     {*String*} - Base path at Neo4j server, default: `db/data`
+ - `opts.headers`  {*Object*} - Additional headers, will be used in every request to Neo4j, default headers: `{Accept: 'application/json; charset=UTF-8', 'X-Stream': 'true', 'Content-Type': 'application/json'};`
  - Returns: {*Neo4jDB*}
 ```js
 const Neo4jDB = require('neo4j-fiber').Neo4jDB;
