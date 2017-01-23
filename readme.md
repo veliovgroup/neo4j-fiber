@@ -1,9 +1,11 @@
 [![Join the chat at https://gitter.im/VeliovGroup/neo4j-fiber](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/VeliovGroup/neo4j-fiber?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+Most advanced, [well documented](https://github.com/VeliovGroup/neo4j-fiber/wiki) and efficient REST client for Neo4j database, with 100% tests coverage. Fibers allows to give a new level experience to developers, no more callback-hell and blocking operations. Speed and low resources consumption is top priority of neo4j-fiber package.
+
+ - __100% tests coverage__
  - Version for Meteor.js - https://atmospherejs.com/ostrio/neo4jdriver
  - This this library is heavily depends from [Fibers](https://www.npmjs.com/package/fibers), so you required to wrap all code into Fiber, see [example](https://github.com/VeliovGroup/neo4j-fiber/blob/master/example.js)
  - This package uses [batch operations](http://neo4j.com/docs/rest-docs/3.1/#rest-api-batch-ops) to perform queries. Batch operations lets you execute multiple API calls through a single HTTP call. This improves performance for large insert and update operations significantly
- - 100% tests coverage
  - This package was tested and works like a charm with [GrapheneDB](http://www.graphenedb.com)
  - To find more about how to use Cypher read [Neo4j cheat sheet](https://neo4j.com/docs/cypher-refcard/3.1/)
 
