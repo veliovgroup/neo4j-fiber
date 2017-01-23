@@ -3,6 +3,7 @@
  - Version for Meteor.js - https://atmospherejs.com/ostrio/neo4jdriver
  - This this library is heavily depends from [Fibers](https://www.npmjs.com/package/fibers), so you required to wrap all code into Fiber, see [example](https://github.com/VeliovGroup/neo4j-fiber/blob/master/example.js)
  - This package uses [batch operations](http://neo4j.com/docs/rest-docs/3.1/#rest-api-batch-ops) to perform queries. Batch operations lets you execute multiple API calls through a single HTTP call. This improves performance for large insert and update operations significantly
+ - 100% tests coverage
  - This package was tested and works like a charm with [GrapheneDB](http://www.graphenedb.com)
  - To find more about how to use Cypher read [Neo4j cheat sheet](https://neo4j.com/docs/cypher-refcard/3.1/)
 

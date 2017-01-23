@@ -153,7 +153,7 @@ db.queryAsync("MATCH (n) WHERE id(n) = {id} RETURN n", {id: id}, (error, cursor)
  - Returns: {*[Neo4jCursor](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class)*}
 ```js
 db.query("MATCH (n) RETURN n").fetch();
-db.query("MATCH (n) WHERE id(n) = {id} RETURN n", {id},).fetch();
+db.query("MATCH (n) WHERE id(n) = {id} RETURN n", {id}).fetch();
 db.query("MATCH (n) RETURN n", (error, cursor) => {
   cursor.fetch();
 });
@@ -174,7 +174,7 @@ db.query("MATCH (n) RETURN n", (error, cursor) => {
  - Returns: {*[Neo4jCursor](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class)*}
 ```js
 db.cypher("MATCH (n) RETURN n").fetch();
-db.cypher("MATCH (n) WHERE id(n) = {id} RETURN n", {id},).fetch();
+db.cypher("MATCH (n) WHERE id(n) = {id} RETURN n", {id}).fetch();
 db.cypher("MATCH (n) RETURN n", (error, cursor) => {
   cursor.fetch();
 });
