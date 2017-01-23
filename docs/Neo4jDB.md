@@ -162,7 +162,7 @@ db.query("MATCH (n) RETURN n", (error, cursor) => {
 ---
 
 ##### `cypher(cypher, [opts, callback])`
-*Send query to Neo4j via cypher endpoint. This query will be sent inside batch, so if you call multiple async queries, all of them will be sent in one batch in closest (next) event loop. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-cypher.html) for more info.*
+*Send query to Neo4j via cypher endpoint. This query will be sent inside batch, so if you call multiple async queries, all of them will be sent in one batch in closest (next) event loop. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-cypher) for more info.*
 
  - `settings` {*Object* | String} - Cypher query as String or object of settings
  - `settings.cypher` {*String*} - Cypher query, alias: `settings.query`
@@ -172,6 +172,8 @@ db.query("MATCH (n) RETURN n", (error, cursor) => {
  - `opts` {*Object*} - Map of cypher query parameters
  - `callback` {*Function*} - Callback function. If passed, the method runs asynchronously
  - Returns: {*[Neo4jCursor](https://github.com/VeliovGroup/neo4j-fiber/wiki/Neo4jCursor-Class)*}
+
+Note: this is legacy method.
 ```js
 db.cypher("MATCH (n) RETURN n").fetch();
 db.cypher("MATCH (n) WHERE id(n) = {id} RETURN n", {id}).fetch();
@@ -183,7 +185,7 @@ db.cypher("MATCH (n) RETURN n", (error, cursor) => {
 ---
 
 ##### `batch(tasks, [settings, callback])`
-*Send tasks to batch endpoint, this method allows to work directly with Neo4j REST API. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-batch-ops.html) for more info.*
+*Send tasks to batch endpoint, this method allows to work directly with Neo4j REST API. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-batch-ops) for more info.*
  - `tasks` {*[Object]*} - Array of tasks
  - `tasks.$.method` {*String*} - HTTP(S) method used sending this task, one of: 'POST', 'GET', 'PUT', 'DELETE', 'HEAD'
  - `tasks.$.to` {*String*} - Endpoint (URL) for task
@@ -239,7 +241,7 @@ db.transaction(["CREATE (n:Person)", "MATCH (n:Person) SET n.id = {id} RETURN n"
 ---
 
 ##### `nodes([id, reactive])`
-*Create or get node object. If no arguments is passed, then new node will be created. If first argument is number, then node will be fetched from Neo4j. If first argument is Object, then new node will be created with passed properties. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-nodes.html) for more info.*
+*Create or get node object. If no arguments is passed, then new node will be created. If first argument is number, then node will be fetched from Neo4j. If first argument is Object, then new node will be created with passed properties. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-nodes) for more info.*
 
  - `id` {*Number* | *Object*}  - [Optional], see description above
  - `reactive` {*Boolean*}  - if passed as `true` - data of node will be updated before returning

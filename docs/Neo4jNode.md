@@ -126,7 +126,7 @@ const r2 = n1.from(n2, "LIKES", {prop: 'value'});
 ---
 
 ##### `path(to, type, [settings])`
-*Execute Graph Algorithms to find a path between two nodes. Read [reference](http://neo4j.com/docs/rest-docs/3.1/rest-api-graph-algos.html) for more info.*
+*Execute Graph Algorithms to find a path between two nodes. Read [reference](http://neo4j.com/docs/rest-docs/3.1/#rest-api-graph-algos) for more info.*
  - `to` {*Number* | *Neo4jNode*} - Neo4jNode instance or Node's id
  - `type` {*String*} - Relationship type
  - `settings` {*Object*} - [OPTIONAL] Object of Graph Algorithm settings
