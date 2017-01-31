@@ -1,0 +1,10 @@
+/node_modules/
+node_modules
+build
+*.log
+/docs/
+.eslintrc.json
+cities-example.js
+example.js
+CHANGELOG.md
+HISTORY.md
