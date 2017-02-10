@@ -1,6 +1,6 @@
 {
   "name": "neo4j-fiber",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Most advanced and efficient Neo4j REST API Driver, with support of https and GrapheneDB",
   "main": "./lib/index.js",
   "scripts": {
