@@ -1,4 +1,4 @@
-[![Join the chat at https://gitter.im/VeliovGroup/neo4j-fiber](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/VeliovGroup/neo4j-fiber?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Package Quality](http://npm.packagequality.com/shield/neo4j-fiber.svg)](http://packagequality.com/#?package=neo4j-fiber) [![Join the chat at https://gitter.im/VeliovGroup/neo4j-fiber](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/VeliovGroup/neo4j-fiber?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Most advanced, [well documented](https://github.com/VeliovGroup/neo4j-fiber/wiki) and efficient REST client for Neo4j database, with 100% tests coverage. Fibers allows to give a new level experience to developers, no more callback-hell and blocking operations. Speed and low resources consumption is top priority of neo4j-fiber package.
 
