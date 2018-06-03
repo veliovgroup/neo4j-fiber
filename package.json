@@ -1,6 +1,6 @@
 {
   "name": "neo4j-fiber",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Most advanced and efficient Neo4j REST API Driver, with support of https and GrapheneDB",
   "main": "./lib/index.js",
   "scripts": {
@@ -40,11 +40,11 @@
   "author": "Dmitriy A. (http://veliovgroup.com)",
   "license": "BSD 3-Clause",
   "dependencies": {
-    "needle": "^1.4.5",
-    "fibers": "^1.0.15",
-    "underscore": "^1.8.3"
+    "needle": "^2.2.1",
+    "fibers": "^2.0.2",
+    "underscore": "^1.9.1"
   },
   "engines": {
-    "node": ">= 0.10.x"
+    "node": ">= 8.9.x"
   }
 }
